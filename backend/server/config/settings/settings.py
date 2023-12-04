@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).parents[2]
 SECRET_KEY = 'django-insecure-gsixjqq$e#2qf1#b34ur&@_czsbav)ia4d(!ytkux)((m6mw$t'
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0']
 SITE_ID = 1
 
 ##################################################################
@@ -47,6 +47,7 @@ TEMPLATES = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,6 +55,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://0.0.0.0:8000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ##################################################################
 # Password validation settings
@@ -74,7 +81,6 @@ if not DEBUG:
             'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
         },
     ]
-
 
 ##################################################################
 # Static files settings (CSS, JavaScript, Images)
@@ -122,7 +128,6 @@ REST_FRAMEWORK = {
         'user': f'{AUTHENTICATED_USER_THROTTLE_RATE}/day',
     }
 }
-
 
 ##################################################################
 # Redis setting

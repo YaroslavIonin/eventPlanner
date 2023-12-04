@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: API FindPlace
+  version: 1.0.0
+servers:
+  - description: API
+    url: 'http://0.0.0.0/api'
+
+tags:
+  - name: auth
+    description: "api auth"
+  - name: users
+    description: "api users"
+
+paths:
+  '/auth/register/':
+    post:
+      tags:
+        - auth
+      summary: "Registration"
+      requestBody:
+        $ref: '#/components/requestBodies/RegistrationRequestBody'
+      responses:
+        '201':
+          $ref: '#/components/responses/Registration201'
+        '400':
+          $ref: '#/components/responses/Registration400'
+
+  '/auth/token/':
+    post:
+      tags:
+        - auth
+      summary: "Get jwt tokens pair"
+      requestBody:
+        $ref: '#/components/requestBodies/TokenObtainRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/TokenObtain200'
+        '400':
+          $ref: '#/components/responses/TokenObtain400'
+
+  '/auth/token/refresh/':
+    post:
+      tags:
+        - auth
+      summary: "Refresh tokens pair"
+      requestBody:
+        $ref: '#/components/requestBodies/TokenRefreshRequestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/TokenObtain200'
+        '400':
+          $ref: '#/components/responses/TokenRefresh400'
+
+  '/users/me':
+    get:
+      tags:
+        - users
+      summary: "User info"
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          $ref: '#/components/responses/UsersMe200'
+        '400':
+          description: "Unauthorized"
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  requestBodies:
+    RegistrationRequestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+      required: true
+
+    TokenObtainRequestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+      required: true
+
+    TokenRefreshRequestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              refresh:
+                type: string
+      required: true
+
+  responses:
+    Registration201:
+      description: "Created"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+
+    Registration400:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: array
+                items:
+                  type: string
+                  example: "Пользователь с таким Никнейм уже существует."
+              emain:
+                type: array
+                items:
+                  type: string
+                  example: "Пользователь с таким Email уже существует."
+
+    TokenObtain200:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              refresh:
+                type: string
+                description: "refresh token"
+              access:
+                type: string
+                description: "access token"
+
+    TokenObtain400:
+      description: "Bad request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: "No active account found with the given credentials"
+
+    TokenRefresh400:
+      description: "Bad request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail:
+                type: string
+                example: "Token is invalid or expired"
+              code:
+                type: string
+                example: "token_not_valid"
+
+    UsersMe200:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+

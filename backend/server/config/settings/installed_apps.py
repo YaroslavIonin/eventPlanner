@@ -7,10 +7,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
+    'corsheaders',
+    'django_admin_geomap',
 ]
 
 LOCAL_APPS = [
-    'apps.users'
+    'apps.users',
+    'apps.events',
 ]
 
 INSTALLED_APPS += LOCAL_APPS

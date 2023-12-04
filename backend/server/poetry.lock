@@ -53,6 +53,32 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-admin-geomap"
+version = "1.6"
+description = "Displaying objects at the maps in the Django views and administration site."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django_admin_geomap-1.6-py3-none-any.whl", hash = "sha256:1e77201cf8c9f423be9d529e10e333411c9a4245a123ef94860c92979399c366"},
+    {file = "django_admin_geomap-1.6.tar.gz", hash = "sha256:31b24f618b62f1e068d6364891f016fff1e9a438a04db93f438dc5729825719d"},
+]
+
+[[package]]
+name = "django-cors-headers"
+version = "4.3.1"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-cors-headers-4.3.1.tar.gz", hash = "sha256:0bf65ef45e606aff1994d35503e6b677c0b26cafff6506f8fd7187f3be840207"},
+    {file = "django_cors_headers-4.3.1-py3-none-any.whl", hash = "sha256:0b1fd19297e37417fc9f835d39e45c8c642938ddba1acce0c1753d3edef04f36"},
+]
+
+[package.dependencies]
+asgiref = ">=3.6"
+Django = ">=3.2"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -183,4 +209,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "5ed09d65c0a2184219b8f95874b7760e404426976638cc09700aa9c025a09f53"
+content-hash = "cd0bb5fedaf1bd85c2d23663e3053966dacccf665ca94c8dd8605b68d651ed90"
