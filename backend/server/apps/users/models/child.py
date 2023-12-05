@@ -4,7 +4,7 @@ from django.db import models
 class Child(models.Model):
     name = models.CharField(
         unique=True,
-        max_length=255,
+        max_length=55,
         verbose_name='Имя'
     )
     parent = models.ForeignKey(
