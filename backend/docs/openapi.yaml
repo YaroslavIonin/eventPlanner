@@ -13,6 +13,8 @@ tags:
     description: "api users"
   - name: children
     description: "api children"
+  - name: events
+    description: "api events"
 
 paths:
   '/auth/register/':
@@ -96,6 +98,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  '/users/children/{child_id}/':
     delete:
       tags:
         - children
@@ -107,12 +110,40 @@ paths:
             type: number
           required: true
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       responses:
         '204':
           description: 'Success delete'
         '404':
-          $ref: '#components/responses/NotFound'
+          $ref: '#/components/responses/NotFound'
+
+  '/events/':
+    get:
+      tags:
+        - events
+      summary: "Get events"
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: false
+        - in: query
+          name: month
+          schema:
+            type: string
+            format: date
+          required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/EventList200'
+        '400':
+          $ref: '#/components/responses/EventList400'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
 components:
   securitySchemes:
@@ -130,6 +161,48 @@ components:
         name:
           type: string
 
+    LocationRetrieve:
+      type: object
+      properties:
+        id:
+          type: number
+        address:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    UserSummary:
+      type: object
+      properties:
+        username:
+          type: string
+
+    EventRetrieve:
+      type: object
+      properties:
+        id:
+          type: number
+        child:
+          $ref: "#/components/schemas/ChildRetrieve"
+        location:
+          $ref: "#/components/schemas/LocationRetrieve"
+        owner:
+          $ref: "#/components/schemas/UserSummary"
+        main_name:
+          type: string
+        event_date:
+          type: string
+          format: date
+        event_time_start:
+          type: string
+          format: time
+        event_time_finish:
+          type: string
+          format: time
+        event_description:
+          type: string
 
   requestBodies:
     RegistrationRequestBody:
@@ -311,3 +384,29 @@ components:
                   type: string
                   example: "Убедитесь, что это значение содержит не более 55 символов."
 
+    EventList200:
+      description: "Success"
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EventRetrieve'
+
+    EventList400:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              date:
+                type: array
+                items:
+                  type: string
+                  example: "Введите правильную дату."
+              month:
+                type: array
+                items:
+                  type: string
+                  example: "Введите правильную дату."

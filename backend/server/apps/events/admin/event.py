@@ -10,7 +10,7 @@ class EventAdmin(admin.ModelAdmin):
         (
             "Основная информация",
             {
-                "fields": [('main_name', 'owner',), 'event_description']
+                "fields": [('main_name', 'owner', 'child'), 'event_description']
 
             }
 
@@ -18,7 +18,7 @@ class EventAdmin(admin.ModelAdmin):
         (
             "Дата и время",
             {
-                "fields": ['event_date', 'event_time']
+                "fields": ['event_date', ('event_time_start', 'event_time_finish')]
             }
         ),
         (

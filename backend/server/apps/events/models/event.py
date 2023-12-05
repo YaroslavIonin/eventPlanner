@@ -11,16 +11,22 @@ class Event(models.Model):
     )
     main_name = models.CharField(
         max_length=255,
-        verbose_name='Название события',
+        verbose_name='Название',
         help_text='Название события',
     )
     event_date = models.DateField(
-        verbose_name='Дата события',
+        verbose_name='Дата',
         help_text='Дата события',
     )
-    event_time = models.TimeField(
-        verbose_name='Время события',
-        help_text='Время события',
+    event_time_start = models.TimeField(
+        verbose_name='Начало в',
+        help_text='Время начала события',
+        blank=True,
+        null=True,
+    )
+    event_time_finish = models.TimeField(
+        verbose_name='Окончание в',
+        help_text='Время окончания события',
         blank=True,
         null=True,
     )
@@ -34,7 +40,15 @@ class Event(models.Model):
     )
     event_description = models.TextField(
         max_length=5000,
-        verbose_name='Описание заведения',
+        verbose_name='Описание события',
+        blank=True,
+        null=True,
+    )
+    child = models.ForeignKey(
+        to='users.Child',
+        on_delete=models.CASCADE,
+        related_name='events',
+        verbose_name='Ребёнок',
         blank=True,
         null=True,
     )
