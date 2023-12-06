@@ -145,6 +145,41 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+    post:
+      tags:
+        - events
+      summary: "Create one time event"
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOneTimeEvent'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneTimeEventCreate201'
+        '400':
+          $ref: '#/components/responses/OneTimeEventCreate400'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  '/events/{event_id}':
+    delete:
+      tags:
+        - events
+      summary: "Delete event"
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: event_id
+          in: path
+          schema:
+            type: number
+          required: true
+      responses:
+        '204':
+          description: 'Success delete'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -171,6 +206,8 @@ components:
         latitude:
           type: number
         longitude:
+          type: number
+        owner:
           type: number
 
     UserSummary:
@@ -252,6 +289,30 @@ components:
               name:
                 type: string
       required: true
+
+    CreateOneTimeEvent:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              main_name:
+                type: string
+              child:
+                type: integer
+              location:
+                type: integer
+              event_date:
+                type: string
+                format: date
+              event_time_start:
+                type: string
+                format: time
+              event_time_finish:
+                type: string
+                format: time
+              event_description:
+                type: string
 
   responses:
     Unauthorized:
@@ -410,3 +471,53 @@ components:
                 items:
                   type: string
                   example: "Введите правильную дату."
+
+    OneTimeEventCreate201:
+      description: "Created"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventRetrieve'
+
+    OneTimeEventCreate400:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              main_name:
+                type: array
+                items:
+                  type: string
+                  example: "Убедитесь, что это значение содержит не более 55 символов."
+              child:
+                type: array
+                items:
+                  type: string
+                  example: "У пользователя нет такого ребёнка"
+              event_date:
+                type: array
+                items:
+                  type: string
+                  example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
+              event_time_start:
+                type: array
+                items:
+                  type: string
+                  example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
+              event_time_finish:
+                type: array
+                items:
+                  type: string
+                  example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
+              event_description:
+                type: array
+                items:
+                  type: string
+                  example: "Убедитесь, что это значение содержит не более 255 символов."
+              location:
+                type: array
+                items:
+                  type: string
+                  example: "У пользователя нет такого адреса"

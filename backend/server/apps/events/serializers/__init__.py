@@ -1,2 +1,2 @@
-from .event import EventSerializer
 from .location import LocationSerializer
+from .event import EventSerializer, CreateOneTimeEventSerializer

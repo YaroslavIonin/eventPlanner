@@ -4,6 +4,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Location(models.Model, GeoItem):
+    owner = models.ForeignKey(
+        to='users.User',
+        on_delete=models.CASCADE,
+        related_name='locations',
+        verbose_name='Владелец',
+        help_text='Создатель адреса',
+    )
     address = models.CharField(
         max_length=100,
         verbose_name='Адрес',

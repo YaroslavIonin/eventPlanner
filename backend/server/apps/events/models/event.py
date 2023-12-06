@@ -10,7 +10,7 @@ class Event(models.Model):
         help_text='Создатель события',
     )
     main_name = models.CharField(
-        max_length=255,
+        max_length=55,
         verbose_name='Название',
         help_text='Название события',
     )
@@ -39,7 +39,7 @@ class Event(models.Model):
         null=True,
     )
     event_description = models.TextField(
-        max_length=5000,
+        max_length=255,
         verbose_name='Описание события',
         blank=True,
         null=True,

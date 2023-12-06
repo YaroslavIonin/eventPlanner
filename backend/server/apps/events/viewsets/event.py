@@ -9,7 +9,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from ..models import Event
 from ..filtersets import EventFilterSet
-from ..serializers import EventSerializer
+from ..serializers import (
+    EventSerializer,
+    CreateOneTimeEventSerializer,
+)
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -19,7 +22,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     SERIALIZER_CLASS_MAP = {
         'list': EventSerializer,
-        # 'create': 3,
+        'create': CreateOneTimeEventSerializer,
     }
 
     def get_serializer_class(self) -> Type[serializers.ModelSerializer]:
