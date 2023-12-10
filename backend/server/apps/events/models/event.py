@@ -52,6 +52,14 @@ class Event(models.Model):
         blank=True,
         null=True,
     )
+    schedule = models.ForeignKey(
+        to='events.Schedule',
+        on_delete=models.CASCADE,
+        related_name='events',
+        verbose_name='Расписание',
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = 'Событие'

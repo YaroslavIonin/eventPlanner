@@ -3,6 +3,7 @@ from rest_framework import serializers
 from ..constants import EventErrors
 from ..models import Event, Location
 from .location import LocationSerializer
+from .schedule import ScheduleSerializer
 
 from apps.users.models import Child
 from apps.users.serializers import (
@@ -15,10 +16,22 @@ class EventSerializer(serializers.ModelSerializer):
     child = ChildSerializer()
     location = LocationSerializer()
     owner = UserSummarySerializer()
+    schedule = ScheduleSerializer()
 
     class Meta:
         model = Event
-        fields = ('__all__')
+        fields = (
+            'id',
+            'child',
+            'location',
+            'owner',
+            'main_name',
+            'event_date',
+            'event_time_start',
+            'event_time_finish',
+            'event_description',
+            'schedule',
+        )
 
 
 class CreateOneTimeEventSerializer(serializers.ModelSerializer):

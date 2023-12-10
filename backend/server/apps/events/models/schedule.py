@@ -2,6 +2,20 @@ from django.db import models
 
 
 class Schedule(models.Model):
+    name = models.CharField(
+        max_length=55,
+        verbose_name='Название'
+    )
+
+    class Meta:
+        verbose_name = 'Расписание'
+        verbose_name_plural = 'Расписания'
+
+    def __str__(self):
+        return self.name
+
+
+class DaySchedule(models.Model):
     class DayOfWeek(models.IntegerChoices):
         MONDAY = 1, 'пн'
         TUESDAY = 2, 'вт'
@@ -22,17 +36,18 @@ class Schedule(models.Model):
     time_finish = models.TimeField(
         verbose_name='Окончание в',
     )
-    event = models.ForeignKey(
-        to='events.Event',
+    schedule = models.ForeignKey(
+        to='events.Schedule',
         on_delete=models.CASCADE,
-        related_name='schedule',
-        verbose_name='Событие',
+        related_name='days',
+        verbose_name='Расписание',
         blank=True,
         null=True,
     )
 
     class Meta:
-        verbose_name = 'Расписание'
-        verbose_name_plural = 'Расписания'
+        verbose_name = 'День расписания'
+        verbose_name_plural = 'Дни расписания'
 
-
+    def __str__(self):
+        return f'{self.schedule.name} - {self.day_of_week}'

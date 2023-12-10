@@ -18,7 +18,7 @@ class EventAdmin(admin.ModelAdmin):
         (
             "Дата и время",
             {
-                "fields": ['event_date', ('event_time_start', 'event_time_finish')]
+                "fields": ['event_date', ('event_time_start', 'event_time_finish'), 'schedule']
             }
         ),
         (

@@ -1,3 +1,3 @@
 from .event import Event
 from .location import Location
-from .schedule import Schedule
+from .schedule import Schedule, DaySchedule

@@ -1,24 +1,14 @@
 from django.contrib import admin
 
-from ..models import Schedule
+from ..models import Schedule, DaySchedule
 
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('day_of_week', 'time_start', 'time_finish', 'event',)
-    fieldsets = [
-        (
-            "Основная информация",
-            {
-                "fields": ['day_of_week', ('time_start', 'time_finish')]
+    list_display = ('name',)
+    fields = ('name',)
 
-            }
 
-        ),
-        (
-            'Событие',
-            {
-                "fields": ['event']
-            }
-        ),
-    ]
+@admin.register(DaySchedule)
+class DayScheduleAdmin(admin.ModelAdmin):
+    list_display = ('schedule', 'day_of_week')
