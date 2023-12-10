@@ -79,3 +79,45 @@ class CreateOneTimeEventSerializer(serializers.ModelSerializer):
     @property
     def data(self):
         return EventSerializer(instance=self.instance).data
+
+
+class CreateEventWithScheduleSerializer(serializers.ModelSerializer):
+    child = serializers.PrimaryKeyRelatedField(
+        queryset=Child.objects.all(),
+        required=False,
+    )
+    location = serializers.PrimaryKeyRelatedField(
+        queryset=Location.objects.all(),
+        required=False,
+    )
+    schedule = ScheduleSerializer()
+
+    class Meta:
+        model = Event
+        fields = (
+            'main_name',
+            'child',
+            'event_description',
+            'location',
+            'schedule',
+        )
+
+    def create(self, validated_data: dict) -> Event:
+        validated_data['owner'] = self.context['request'].user
+        return super().create(validated_data)
+
+    def validate_child(self, child: Child) -> Child:
+        user = self.context['request'].user
+
+        if child not in user.children.all():
+            raise serializers.ValidationError(EventErrors.NOT_USERS_CHILD)
+        else:
+            return child
+
+    def validate_location(self, location: Location) -> Location:
+        user = self.context['request'].user
+
+        if location not in user.locations.all():
+            raise serializers.ValidationError(EventErrors.NOT_USERS_LOCATION)
+        else:
+            return location

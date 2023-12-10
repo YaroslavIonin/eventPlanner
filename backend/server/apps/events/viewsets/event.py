@@ -2,6 +2,7 @@ from typing import Type
 from django.utils import timezone
 
 from django.db.models import QuerySet
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, serializers, filters
@@ -12,7 +13,9 @@ from ..filtersets import EventFilterSet
 from ..serializers import (
     EventSerializer,
     CreateOneTimeEventSerializer,
+    CreateEventWithScheduleSerializer,
 )
+from ..utils import create_with_schedule
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -23,6 +26,7 @@ class EventViewSet(viewsets.ModelViewSet):
     SERIALIZER_CLASS_MAP = {
         'list': EventSerializer,
         'create': CreateOneTimeEventSerializer,
+        'create_with_schedule': CreateEventWithScheduleSerializer,
     }
 
     def get_serializer_class(self) -> Type[serializers.ModelSerializer]:
@@ -41,3 +45,10 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer_class()
         response = serializer(queryset, many=True).data
         return Response(response)
+
+    @action(methods=('POST',), detail=False, url_path='schedule')
+    def create_with_schedule(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        create_with_schedule(serializer.data)
+
