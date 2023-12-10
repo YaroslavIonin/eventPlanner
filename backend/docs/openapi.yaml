@@ -56,11 +56,11 @@ paths:
         '400':
           $ref: '#/components/responses/TokenRefresh400'
 
-  '/users/me':
+  '/users/profile':
     get:
       tags:
         - users
-      summary: "User info"
+      summary: "User profile"
       security:
         - bearerAuth: [ ]
       responses:
@@ -207,14 +207,28 @@ components:
           type: number
         longitude:
           type: number
-        owner:
-          type: number
 
     UserSummary:
       type: object
       properties:
         username:
           type: string
+
+    UserProfile:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildRetrieve'
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationRetrieve'
 
     EventRetrieve:
       type: object
@@ -411,10 +425,7 @@ components:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              username:
-                type: string
+            $ref: '#/components/schemas/UserProfile'
 
     ChildList200:
       description: "Success"

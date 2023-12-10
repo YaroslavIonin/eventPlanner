@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     username = models.CharField(
-        unique=True,
         max_length=255,
         verbose_name='Никнейм'
     )

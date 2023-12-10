@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from ..models import User
+from ..serializers import ChildSerializer
+from apps.events.serializers import LocationSerializer
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -19,3 +21,17 @@ class UserSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username',)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    children = ChildSerializer(many=True)
+    locations = LocationSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email',
+            'children',
+            'locations'
+        )
