@@ -161,6 +161,23 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  '/events/schedule/':
+    post:
+      tags:
+        - events
+      summary: "Create event with schedule"
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/CreateEventWithSchedule'
+      responses:
+        '201':
+          description: "Created"
+        '400':
+          $ref: '#/components/responses/EventWithScheduleCreate400'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
   '/events/{event_id}':
     delete:
       tags:
@@ -255,6 +272,26 @@ components:
         event_description:
           type: string
 
+    DaySchedule:
+      type: object
+      properties:
+        day_of_week:
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+        time_start:
+          type: string
+          format: 'HH:MM'
+        time_finish:
+          type: string
+          format: 'HH:MM'
+
   requestBodies:
     RegistrationRequestBody:
       content:
@@ -327,6 +364,34 @@ components:
                 format: time
               event_description:
                 type: string
+
+    CreateEventWithSchedule:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              main_name:
+                type: string
+              child:
+                type: integer
+              location:
+                type: integer
+              event_description:
+                type: string
+              date_start:
+                type: string
+                format: date
+              date_finish:
+                type: string
+                format: date
+              schedule:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DaySchedule'
 
   responses:
     Unauthorized:
@@ -518,6 +583,67 @@ components:
                   type: string
                   example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
               event_time_finish:
+                type: array
+                items:
+                  type: string
+                  example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
+              event_description:
+                type: array
+                items:
+                  type: string
+                  example: "Убедитесь, что это значение содержит не более 255 символов."
+              location:
+                type: array
+                items:
+                  type: string
+                  example: "У пользователя нет такого адреса"
+
+    EventWithScheduleCreate400:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              main_name:
+                type: array
+                items:
+                  type: string
+                  example: "Убедитесь, что это значение содержит не более 55 символов."
+              child:
+                type: array
+                items:
+                  type: string
+                  example: "У пользователя нет такого ребёнка"
+              schedule:
+                type: object
+                properties:
+                  days:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        day_of_week:
+                          type: array
+                          items:
+                            type: string
+                            example: "Значения 234223 нет среди допустимых вариантов."
+                        time_start:
+                          type: array
+                          items:
+                            type: string
+                            example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
+                        time_finish:
+                          type: array
+                          items:
+                            type: string
+                            example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
+              date_start:
+                type: array
+                items:
+                  type: string
+                  example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
+              date_finish:
                 type: array
                 items:
                   type: string

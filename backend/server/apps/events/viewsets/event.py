@@ -5,7 +5,7 @@ from django.db.models import QuerySet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets, serializers, filters
+from rest_framework import viewsets, serializers, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from ..models import Event
@@ -50,5 +50,6 @@ class EventViewSet(viewsets.ModelViewSet):
     def create_with_schedule(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        create_with_schedule(serializer.data)
+        response = create_with_schedule(serializer.data, user=request.user.id)
+        return Response(status=status.HTTP_201_CREATED)
 

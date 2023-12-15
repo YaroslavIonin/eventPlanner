@@ -6,7 +6,6 @@ from ..models import Schedule, DaySchedule
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    fields = ('name',)
 
 
 @admin.register(DaySchedule)

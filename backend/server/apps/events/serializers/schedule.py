@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from rest_framework import serializers
 
 from apps.events.constants import EventErrors
@@ -24,3 +22,15 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = ('id', 'days',)
+
+
+class ScheduleCreateSerializer(serializers.ModelSerializer):
+    days = DayScheduleSerializer(many=True)
+
+    class Meta:
+        model = Schedule
+        fields = (
+            'days',
+            'date_start',
+            'date_finish',
+        )

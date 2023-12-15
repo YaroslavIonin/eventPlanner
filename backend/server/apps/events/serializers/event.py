@@ -3,7 +3,7 @@ from rest_framework import serializers
 from ..constants import EventErrors
 from ..models import Event, Location
 from .location import LocationSerializer
-from .schedule import ScheduleSerializer
+from .schedule import ScheduleSerializer, ScheduleCreateSerializer
 
 from apps.users.models import Child
 from apps.users.serializers import (
@@ -90,7 +90,7 @@ class CreateEventWithScheduleSerializer(serializers.ModelSerializer):
         queryset=Location.objects.all(),
         required=False,
     )
-    schedule = ScheduleSerializer()
+    schedule = ScheduleCreateSerializer()
 
     class Meta:
         model = Event

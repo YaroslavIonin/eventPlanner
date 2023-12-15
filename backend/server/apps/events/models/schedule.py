@@ -4,7 +4,13 @@ from django.db import models
 class Schedule(models.Model):
     name = models.CharField(
         max_length=55,
-        verbose_name='Название'
+        verbose_name='Название',
+    )
+    date_start = models.DateField(
+        verbose_name='Начало расписания',
+    )
+    date_finish = models.DateField(
+        verbose_name='Конец расписания',
     )
 
     class Meta:
@@ -28,7 +34,7 @@ class DaySchedule(models.Model):
     day_of_week = models.IntegerField(
         choices=DayOfWeek.choices,
         default=DayOfWeek.MONDAY,
-        verbose_name='День недели'
+        verbose_name='День недели',
     )
     time_start = models.TimeField(
         verbose_name='Начало в',
