@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: API FindPlace
+  title: API Event Planner
   version: 1.0.0
 servers:
   - description: API
