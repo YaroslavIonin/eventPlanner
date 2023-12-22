@@ -15,6 +15,7 @@ djangorestframework-simplejwt = "^5.3.0"
 django-cors-headers = "^4.3.1"
 django-admin-geomap = "^1.6"
 django-filter = "^23.5"
+gunicorn = "^21.2.0"
 
 
 [build-system]
