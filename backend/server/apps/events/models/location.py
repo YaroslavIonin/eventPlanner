@@ -12,7 +12,7 @@ class Location(models.Model, GeoItem):
         help_text='Создатель адреса',
     )
     address = models.CharField(
-        max_length=100,
+        max_length=55,
         verbose_name='Адрес',
     )
     latitude = models.FloatField(

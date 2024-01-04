@@ -12,3 +12,8 @@ class LocationSerializer(serializers.ModelSerializer):
             'latitude',
             'longitude',
         )
+
+    def create(self, validated_data: dict) -> Location:
+        validated_data['owner'] = self.context['request'].user
+        return super().create(validated_data)
+
