@@ -7,7 +7,13 @@ from apps.users.models import Child
 from ..serializers import ChildSerializer
 
 
-class ChildViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class ChildViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
     permission_classes = (IsAuthenticated,)
 
     SERIALIZER_CLASS_MAP = {
