@@ -379,12 +379,6 @@ components:
                 type: integer
               event_description:
                 type: string
-              date_start:
-                type: string
-                format: date
-              date_finish:
-                type: string
-                format: date
               schedule:
                 type: object
                 properties:
@@ -392,6 +386,12 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/DaySchedule'
+                  date_start:
+                    type: string
+                    format: date
+                  date_finish:
+                    type: string
+                    format: date
 
   responses:
     Unauthorized:
@@ -638,16 +638,16 @@ components:
                           items:
                             type: string
                             example: "Неправильный формат времени. Используйте один из этих форматов: hh:mm[:ss[.uuuuuu]]."
-              date_start:
-                type: array
-                items:
-                  type: string
-                  example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
-              date_finish:
-                type: array
-                items:
-                  type: string
-                  example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
+                  date_start:
+                    type: array
+                    items:
+                      type: string
+                      example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
+                  date_finish:
+                    type: array
+                    items:
+                      type: string
+                      example: "Неправильный формат date. Используйте один из этих форматов: YYYY-MM-DD."
               event_description:
                 type: array
                 items:
