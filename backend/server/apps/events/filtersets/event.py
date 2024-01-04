@@ -16,7 +16,7 @@ class EventFilterSet(filters.FilterSet):
 
     class Meta:
         model = Event
-        fields = ['date', 'month']
+        fields = ['date', 'month', 'child']
 
     def custom_filter_date(self, queryset: QuerySet, name, value):
         queryset = queryset.filter(
