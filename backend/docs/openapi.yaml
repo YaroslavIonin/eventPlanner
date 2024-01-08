@@ -235,6 +235,12 @@ paths:
             format: date
           required: false
         - in: query
+          name: week
+          schema:
+            type: string
+            format: date
+          required: false
+        - in: query
           name: child
           schema:
             type: integer
