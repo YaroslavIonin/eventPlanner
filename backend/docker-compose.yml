@@ -11,9 +11,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
-    environment:
-      DEBUG: 'True'
-      DATABASE_URL: 'postgres://postgres:postgres@db:5432/postgres'
+    env_file:
+      - .env
 
   db:
     image: postgres:12.4-alpine
@@ -21,3 +20,30 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
+  celery-worker:
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    command: celery -A config worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - server
+      - redis
+
+  celery-beat:
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    command: celery -A config beat --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - server
+      - redis
+
+  redis:
+    image: redis:7.0.5-alpine
+    env_file:
+      - .env

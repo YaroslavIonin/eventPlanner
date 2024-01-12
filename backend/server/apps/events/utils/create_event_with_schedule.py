@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from ..models import Event, Schedule, DaySchedule
+from apps.events.models import Event, Schedule, DaySchedule
 
 
 def create_schedule(name, date_start, date_finish, days):

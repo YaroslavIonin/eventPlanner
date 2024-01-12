@@ -1,5 +1,4 @@
 from typing import Type
-from django.utils import timezone
 
 from django.db.models import QuerySet
 from rest_framework.decorators import action
@@ -15,7 +14,8 @@ from ..serializers import (
     CreateOneTimeEventSerializer,
     CreateEventWithScheduleSerializer,
 )
-from ..utils import create_with_schedule
+from apps.events.utils.create_event_with_schedule import create_with_schedule
+from ..utils.celery_task_func import add_to_query_celery
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -52,4 +52,8 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         response = create_with_schedule(serializer.data, user=request.user.id)
         return Response(status=status.HTTP_201_CREATED)
+
+    def perform_create(self, serializer):
+        event = serializer.save()
+        add_to_query_celery(event.id)
 

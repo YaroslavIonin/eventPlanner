@@ -3,6 +3,10 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
+from dotenv import load_dotenv
+
+
+load_dotenv(dotenv_path='../../../.env')
 
 BASE_DIR = Path(__file__).parents[2]
 SECRET_KEY = 'django-insecure-gsixjqq$e#2qf1#b34ur&@_czsbav)ia4d(!ytkux)((m6mw$t'
@@ -141,10 +145,11 @@ REDIS_PORT = '6379'
 ##################################################################
 
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Yekaterinburg'
 
 ##################################################################
 # Custom user settings

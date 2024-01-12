@@ -9,6 +9,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_admin_geomap',
+    'django_celery_results',
 ]
 
 LOCAL_APPS = [
