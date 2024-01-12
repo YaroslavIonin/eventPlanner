@@ -245,6 +245,11 @@ paths:
           schema:
             type: integer
           required: false
+        - in: query
+          name: schedule
+          schema:
+            type: integer
+          required: false
       responses:
         '200':
           $ref: '#/components/responses/EventList200'
@@ -287,6 +292,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 
   '/events/{event_id}':
+    put:
+      tags:
+        - events
+      summary: "Update event"
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: event_id
+          in: path
+          schema:
+            type: number
+          required: true
+      requestBody:
+        $ref: '#/components/requestBodies/CreateOneTimeEvent'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneTimeEventCreate201'
+        '400':
+          $ref: '#/components/responses/OneTimeEventCreate400'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
     delete:
       tags:
         - events
@@ -817,4 +844,4 @@ components:
                 type: array
                 items:
                   type: string
-                  example:  "Убедитесь, что это значение меньше либо равно 180."
+                  example: "Убедитесь, что это значение меньше либо равно 180."
