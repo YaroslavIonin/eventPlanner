@@ -10,8 +10,8 @@ def add_to_query_celery(pk):
     year = event.event_date.year
     month = event.event_date.month
     day = event.event_date.day
-    hour = event.event_time_start.hour
-    minute = event.event_time_start.minute
+    hour = event.event_time_start.hour if event.event_time_start else 5
+    minute = event.event_time_start.minute if event.event_time_start else 0
     date = datetime(
         year=year,
         month=month,

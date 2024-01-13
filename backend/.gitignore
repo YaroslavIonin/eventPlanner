@@ -12,3 +12,4 @@
 /pg_data
 server/config/migrations/*/*
 .env
+/eventplanner-f092d-966456e87870.json
