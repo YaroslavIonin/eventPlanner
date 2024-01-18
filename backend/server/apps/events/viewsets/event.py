@@ -27,6 +27,7 @@ class EventViewSet(viewsets.ModelViewSet):
         'list': EventSerializer,
         'create': CreateOneTimeEventSerializer,
         'create_with_schedule': CreateEventWithScheduleSerializer,
+        'update': CreateOneTimeEventSerializer,
     }
 
     def get_serializer_class(self) -> Type[serializers.ModelSerializer]:
@@ -54,6 +55,10 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
+        event = serializer.save()
+        add_to_query_celery(event.id)
+
+    def perform_update(self, serializer):
         event = serializer.save()
         add_to_query_celery(event.id)
 
